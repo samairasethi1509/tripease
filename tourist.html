@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tourist Spots - TripEase</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<a href="index.html" class="home">⬅ Home</a>
+
+<h2>Tourist Attractions</h2>
+
+<div class="section">
+
+    <input type="text" id="locationInput" placeholder="Enter a location (e.g., Delhi, Paris)" />
+    <br><br>
+
+    <button onclick="getTouristInfo()">Get Tourist Spots</button>
+
+    <br><br>
+
+    <div id="touristBox" class="output-box">
+        Tourist information will appear here.
+    </div>
+
+</div>
+
+<script>
+async function getTouristInfo() {
+    let location = document.getElementById("locationInput").value;
+    let box = document.getElementById("touristBox");
+
+    if (!location.trim()) {
+        box.innerText = "Please enter a location.";
+        return;
+    }
+
+    box.innerText = "Loading tourist information...";
+
+    try {
+        // Search for "<location> tourist attractions"
+        let searchQuery = location + " tourist attractions";
+        let searchUrl = `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(searchQuery)}&format=json&origin=*`;
+
+        let searchResponse = await fetch(searchUrl);
+        let searchData = await searchResponse.json();
+
+        if (searchData.query.search.length === 0) {
+            box.innerText = "No tourist information found.";
+            return;
+        }
+
+        // Get first result title
+        let pageTitle = searchData.query.search[0].title;
+
+        // Fetch full extract
+        let extractUrl = `https://en.wikipedia.org/w/api.php?action=query&prop=extracts&explaintext=true&titles=${encodeURIComponent(pageTitle)}&format=json&origin=*`;
+
+        let extractResponse = await fetch(extractUrl);
+        let extractData = await extractResponse.json();
+
+        let pages = extractData.query.pages;
+        let pageId = Object.keys(pages)[0];
+        let content = pages[pageId].extract;
+
+        if (content) {
+            box.innerText = content;
+        } else {
+            box.innerText = "Detailed tourist information not available.";
+        }
+
+    } catch (error) {
+        box.innerText = "Failed to fetch tourist information.";
+        console.error(error);
+    }
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TripEast Map Search</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+<a href="index.html" class="home">⬅ Home</a>
+<h1>TripEast Map Search</h1>
+
+<div class="container">
+    <input 
+        type="text" 
+        id="locationInput" 
+        placeholder="Enter a location"
+    >
+    
+    <button onclick="updateMap()">Enter</button>
+</div>
+
+<div class="map-container">
+    <iframe
+        id="mapFrame"
+        src="https://www.google.com/maps?q=Delhi&output=embed"
+        >
+    </iframe>
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cultural Information - TripEase</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<a href="index.html" class="home">⬅ Home</a>
+
+<h2>Cultural Information</h2>
+
+<div class="section">
+
+    <input type="text" id="locationInput" placeholder="Enter a location (e.g., Delhi, Japan)" />
+    <br><br>
+
+    <button onclick="getCulture()">Get Culture Info</button>
+
+    <br><br>
+
+    <div id="cultureBox" class="output-box">
+        Cultural information will appear here.
+    </div>
+
+</div>
+
+<script>
+async function getCulture() {
+    let location = document.getElementById("locationInput").value;
+    let box = document.getElementById("cultureBox");
+
+    if (!location.trim()) {
+        box.innerText = "Please enter a location.";
+        return;
+    }
+
+    box.innerText = "Loading detailed cultural information...";
+
+    try {
+        // Search for "<location> culture"
+        let searchUrl = `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(location + " culture")}&format=json&origin=*`;
+
+        let searchResponse = await fetch(searchUrl);
+        let searchData = await searchResponse.json();
+
+        if (searchData.query.search.length === 0) {
+            box.innerText = "No cultural information found.";
+            return;
+        }
+
+        // Get the first result title
+        let pageTitle = searchData.query.search[0].title;
+
+        // Fetch full extract of that page
+        let extractUrl = `https://en.wikipedia.org/w/api.php?action=query&prop=extracts&explaintext=true&exintro=false&titles=${encodeURIComponent(pageTitle)}&format=json&origin=*`;
+
+        let extractResponse = await fetch(extractUrl);
+        let extractData = await extractResponse.json();
+
+        let pages = extractData.query.pages;
+        let pageId = Object.keys(pages)[0];
+        let content = pages[pageId].extract;
+
+        if (content) {
+            box.innerText = content;
+        } else {
+            box.innerText = "Detailed cultural information not available.";
+        }
+
+    } catch (error) {
+        box.innerText = "Failed to fetch information.";
+        console.error(error);
+    }
+}
+</script>
+
+</body>
+</html>

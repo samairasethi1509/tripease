@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Local Cuisine - TripEase</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<a href="index.html" class="home">⬅ Home</a>
+
+<h2>Local Cuisine</h2>
+
+<div class="section">
+
+    <input type="text" id="locationInput" placeholder="Enter a location (e.g., Delhi, Italy)" />
+    <br><br>
+
+    <button onclick="getDishes()">Get Local Dishes</button>
+
+    <br><br>
+
+    <div id="dishBox" class="output-box">
+        Popular local dishes will appear here.
+    </div>
+
+</div>
+
+<script>
+async function getDishes() {
+    let location = document.getElementById("locationInput").value;
+    let box = document.getElementById("dishBox");
+
+    if (!location.trim()) {
+        box.innerText = "Please enter a location.";
+        return;
+    }
+
+    box.innerText = "Loading dishes...";
+
+    try {
+        // Search for cuisine page
+        let searchQuery = location + " cuisine";
+        let searchUrl = `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(searchQuery)}&format=json&origin=*`;
+
+        let searchResponse = await fetch(searchUrl);
+        let searchData = await searchResponse.json();
+
+        if (searchData.query.search.length === 0) {
+            box.innerText = "Cuisine information not found.";
+            return;
+        }
+
+        let pageTitle = searchData.query.search[0].title;
+
+        // Get extract
+        let extractUrl = `https://en.wikipedia.org/w/api.php?action=query&prop=extracts&explaintext=true&titles=${encodeURIComponent(pageTitle)}&format=json&origin=*`;
+
+        let extractResponse = await fetch(extractUrl);
+        let extractData = await extractResponse.json();
+
+        let pages = extractData.query.pages;
+        let pageId = Object.keys(pages)[0];
+        let text = pages[pageId].extract;
+
+        if (!text) {
+            box.innerText = "Dish information not available.";
+            return;
+        }
+
+        // Extract possible dish names (simple keyword filtering)
+        let keywords = [
+            "biryani","curry","bread","rice","soup","noodle","pasta",
+            "pizza","tandoori","kebab","dumpling","salad","cake",
+            "samosa","paratha","dal","idli","dosa","paella","sushi"
+        ];
+
+        let lines = text.split(". ");
+        let dishes = [];
+
+        for (let line of lines) {
+            for (let word of keywords) {
+                if (line.toLowerCase().includes(word)) {
+                    dishes.push(line.trim());
+                    break;
+                }
+            }
+            if (dishes.length >= 5) break;
+        }
+
+        if (dishes.length > 0) {
+            box.innerHTML = "<b>Popular dishes:</b><br><br>• " + dishes.join("<br>• ");
+        } else {
+            box.innerText = "Popular dishes information not available.";
+        }
+
+    } catch (error) {
+        box.innerText = "Failed to fetch dishes.";
+        console.error(error);
+    }
+}
+</script>
+
+</body>
+</html>

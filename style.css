@@ -1,0 +1,200 @@
+/* ===============================
+   TripEase Color Palette
+   ===============================
+   Mustard Yellow: #D4A017
+   Dark Mustard: #B58900
+   Light Mustard: #F3D37A
+   Warm Off-White: #FFF8E7
+   White: #FFFFFF
+   Soft Gray: #6B6B6B
+   Charcoal: #2E2E2E
+================================= */
+
+/* General Page Style */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #FFF8E7;
+    text-align: center;
+    margin: 0;
+    padding: 30px;
+    color: #2E2E2E;
+}
+
+/* Headings */
+h1 {
+    font-size: 42px;
+    margin-bottom: 5px;
+}
+
+h2 {
+    margin-top: 10px;
+    color: #2E2E2E;
+}
+
+.tagline {
+    color: #6B6B6B;
+    margin-bottom: 35px;
+}
+
+/* Grid Layout */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, 220px);
+    gap: 25px;
+    justify-content: center;
+}
+
+.grid{
+    display: grid;
+    grid-template-columns: repeat(3, 220px);
+    gap: 25px;
+    justify-content: center;
+}
+
+/* Cards */
+.box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    background: #FFFFFF;
+    height: 160px;
+    border-radius: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transition: 0.3s;
+    color: #2E2E2E;
+    border: 2px solid #F3D37A;
+}
+
+.box:hover {
+    transform: translateY(-6px);
+    background-color: #F3D37A;
+    border-color: #D4A017;
+}
+
+.box-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 12px;
+}
+
+.icon {
+    font-size: 38px;
+}
+
+/* ===============================
+   PAGE CONTENT SECTIONS
+================================= */
+
+.section {
+    background: #FFFFFF;
+    border-radius: 16px;
+    padding: 25px;
+    width: 70%;
+    margin: 20px auto;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    border: 2px solid #F3D37A;
+}
+.home {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    text-decoration: none;
+    background-color: #D4A017;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+.home:hover {
+    background-color: #B58900;
+}
+/* Text Content */
+p {
+    color: #6B6B6B;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+/* ===============================
+   INPUTS & BUTTONS
+================================= */
+
+input, textarea {
+    padding: 10px;
+    width: 60%;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    margin-top: 10px;
+}
+
+button {
+    padding: 10px 18px;
+    font-size: 16px;
+    background-color: #D4A017;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-left: 10px;
+    margin-top: 10px;
+    transition: 0.3s;
+}
+
+button:hover {
+    background-color: #B58900;
+}
+
+/* ===============================
+   MAP
+================================= */
+
+iframe {
+    width: 90%;
+    height: 420px;
+    border: none;
+    border-radius: 14px;
+    margin-top: 20px;
+}
+
+/* ===============================
+   BACK BUTTON
+================================= */
+
+.back {
+    display: inline-block;
+    margin-top: 25px;
+    text-decoration: none;
+    background-color: #D4A017;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+.back:hover {
+    background-color: #B58900;
+}
+
+/* ===============================
+   LISTS (Cuisine / Emergency)
+================================= */
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    background: #FFFFFF;
+    margin: 10px auto;
+    padding: 12px;
+    width: 60%;
+    border-radius: 10px;
+    border: 1px solid #F3D37A;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
